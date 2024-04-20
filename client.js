@@ -87,6 +87,33 @@ async function main() {
                 rl.close(); 
             });
             break;
+        case '2':
+            // Establishing a stream to activate the alarm
+            const alarmStream = client.ActivateAlarm();
+
+            // Listening for data events from the alarm stream
+            alarmStream.on('data', (response) => {
+                console.log('Alarm activated:', response.message);
+            });
+
+            // Handling end event of the alarm stream
+            alarmStream.on('end', () => {
+                console.log('Alarm process ended.');
+                console.log('\nExiting Smart Security System. Goodbye!');
+                // Closing the readline interface
+                rl.close();
+            });
+
+            // Function to trigger the alarm
+            async function triggerAlarm() {
+                console.log("Activating alarm...");
+                alarmStream.write({ trigger: true });
+                alarmStream.end();
+            }
+
+            // Invoking the function to trigger the alarm
+            triggerAlarm();
+            break;
         
         default:
             // Informing about invalid choice
