@@ -4,5 +4,8 @@ package NoRobbery;
 
 // The NoRobbery service definition.
 service NoRobbery {
+  //Music Unary
+  // RPC method to set a music timer.
+  rpc SetTimeMusic(MusicRequest) returns (MusicResponse) {} 
 }
 
