@@ -26,6 +26,33 @@ server.addService(NoRobberyProto.NoRobbery.service, {
         callback(null, { message });
         console.log(`The client has set the time to ${desiredTime}\n`);
     },
+
+    // Service method to activate alarm
+    activateAlarm: (call) => {
+        console.log("*****Alarm will now turn on for 10 seconds...*****\n");
+        // Sending initial message to the client
+        call.write({ message: 'Alarm activated successfully.\n' });
+
+        // Simulating alarm activation process
+        let countdown = 10;
+        let bipNumber = 1;
+        const countdownInterval = setInterval(() => {
+            if (countdown > 0) {
+                call.write({ message: 'Bip ' + bipNumber });
+                bipNumber++;
+                console.log(`Countdown: ${countdown} seconds remaining...`);
+                countdown--;
+            } else {
+                clearInterval(countdownInterval);
+                console.log("Alarm deactivated.\n");
+                // Ending the call
+                call.end();
+            }
+        }, 1000); // Countdown interval of 1 second
+    },
+
+    // Service method to control lights
+   
 });
 
 // Binding and starting the server
