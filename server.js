@@ -49,7 +49,7 @@ server.addService(NoRobberyProto.NoRobbery.service, {
                 call.end();
             }
         }, 1000); // Countdown interval of 1 second
-    },
+    }
 
     // Service method to control lights
    
