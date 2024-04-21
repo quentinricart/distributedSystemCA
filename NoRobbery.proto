@@ -9,14 +9,16 @@ service NoRobbery {
   // RPC method to set a music timer.
   rpc SetTimeMusic(MusicRequest) returns (MusicResponse) {} 
 
-  // RPC method to control lights with client streaming.
-  rpc ControlLights(stream ControlLightsRequest) returns (ControlLightsResponse) {}
-
   // Bidirectional streaming alarm system
   // RPC method to activate the alarm system with bidirectional streaming.
   rpc ActivateAlarm(stream AlarmRequest) returns (stream AlarmResponse) {}
 
-  
+  // RPC method to control lights with client streaming.
+  rpc ControlLights(stream ControlLightsRequest) returns (ControlLightsResponse) {}
+
+  // Action to check motion detectors with server streaming
+  rpc MotionDetectionStream(MotionDetectionRequest) returns (stream MotionDetectionResponse) {}
+
 
 }
 
@@ -49,12 +51,25 @@ message AlarmResponse {
 message ControlLightsRequest {
   string room = 1;   // Name of the room to control lights.
   bool activate = 2; // Boolean indicating whether to activate or deactivate lights.
+
 }
 
 // Control Lights Response
 // Response message for controlling lights.
 message ControlLightsResponse {
+
   string message = 1; // Message indicating the status of the light control operation.
 }
 
+// Motion Detecton Request
+//Request message for motion detection
+message MotionDetectionRequest {
+}
 
+//Motion Detection Response
+//Response message for motion detection
+message MotionDetectionResponse {
+    
+  string message = 1;
+
+}
