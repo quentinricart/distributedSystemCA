@@ -49,6 +49,26 @@ server.addService(NoRobberyProto.NoRobbery.service, {
                 call.end();
             }
         }, 1000); // Countdown interval of 1 second
+    },
+
+    ControlLights: (call) => {
+        // Handling incoming data from the client
+        call.on('data', (request) => {
+            const { room, activate } = request;
+            if (activate) {
+                console.log(`Turning on the lights for 5 minutes in ${room}...\n`);
+                // Logic to activate the lights goes here
+            } else {
+                console.log(`No action for ${room}\n`);
+                // Logic to deactivate the lights goes here
+            }
+        });
+
+        // Handling end of the call
+        call.on('end', () => {
+            call.write({ message: 'Lights control stream ended.\n' });
+            call.end();
+        });
     }
 
     // Service method to control lights
