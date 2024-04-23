@@ -51,13 +51,11 @@ message AlarmResponse {
 message ControlLightsRequest {
   string room = 1;   // Name of the room to control lights.
   bool activate = 2; // Boolean indicating whether to activate or deactivate lights.
-
 }
 
 // Control Lights Response
 // Response message for controlling lights.
 message ControlLightsResponse {
-
   string message = 1; // Message indicating the status of the light control operation.
 }
 
@@ -69,7 +67,5 @@ message MotionDetectionRequest {
 //Motion Detection Response
 //Response message for motion detection
 message MotionDetectionResponse {
-    
   string message = 1;
-
 }
