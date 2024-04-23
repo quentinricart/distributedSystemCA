@@ -8,13 +8,10 @@ const packageDefinition = protoLoader.loadSync('NoRobbery.proto', {});
 // Loading gRPC package definition
 const NoRobberyProto = grpc.loadPackageDefinition(packageDefinition).NoRobbery;
 
-
 // Creating gRPC server
 const server = new grpc.Server();
 
-
 const rooms = ['living room', 'bedroom', 'kitchen', 'bathroom'];
-
 
 // Adding services to the server
 server.addService(NoRobberyProto.NoRobbery.service, {
@@ -22,7 +19,6 @@ server.addService(NoRobberyProto.NoRobbery.service, {
     SetTimeMusic: (call, callback) => {
         // Extracting desired time from the request
         const desiredTime = call.request.time;
-
         // Logic to set the time, e.g., interact with the security system
         // For now, let's just return a confirmation message
         const message = `Time set to ${desiredTime} minutes\n`;
@@ -32,7 +28,7 @@ server.addService(NoRobberyProto.NoRobbery.service, {
     },
 
     // Service method to activate alarm
-        activateAlarm: (call) => {
+    activateAlarm: (call) => {
         console.log("*****Alarm will now turn on for 10 seconds...*****\n");
         // Sending initial message to the client
         call.write({ message: 'Alarm activated successfully.\n' });
@@ -51,17 +47,14 @@ server.addService(NoRobberyProto.NoRobbery.service, {
                 console.log("Alarm deactivated.\n");
                 // Ending the call
                 call.end();
-
             }
         }, 1000); // Countdown interval of 1 second
     },
 
     // Service method to control lights
     ControlLights: (call) => {
-
         // Handling incoming data from the client
         call.on('data', (request) => {
-
             const { room, activate } = request;
             if (activate) {
                 console.log(`Turning on the lights for 5 minutes in ${room}...\n`);
@@ -76,12 +69,10 @@ server.addService(NoRobberyProto.NoRobbery.service, {
         call.on('end', () => {
             call.write({ message: 'Lights control stream ended.\n' });
             call.end();
-
         });
     },
     // Implementation of the MotionDetectionStream RPC method
     MotionDetectionStream: (call) => {
-
         // Simulated motion detection for each room
         const rooms = ['living room', 'bedroom', 'kitchen', 'bathroom'];
         
@@ -99,7 +90,6 @@ server.addService(NoRobberyProto.NoRobbery.service, {
                 call.write({ message });
             }, (index + 1) * 500); // Increasing delay for each room
         });      
-
         
         // End the streaming call after 5 seconds
         setTimeout(() => {
@@ -115,7 +105,6 @@ server.bindAsync('127.0.0.1:50051', grpc.ServerCredentials.createInsecure(), (er
         console.error(err);
         return;
     }
-
     server.start();
     console.log(`Server running at http://127.0.0.1:${port}`);
     console.log(`
