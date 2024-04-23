@@ -27,11 +27,9 @@ function askQuestion(query) {
 // Array of room names
 const rooms = ['living room', 'bedroom', 'kitchen', 'bathroom']; 
 
-
 //Main function
 async function main() {
     // Displaying welcome message
-
     console.log(`
             //////////////////////////////////////////////////
             /////             No Robbery!                ///// 
@@ -49,7 +47,6 @@ async function main() {
 
     // Displaying the initial menu
     console.log('\nSelect an option:');
-
     console.log('1: Set Music Timer to deter intruders');
     console.log('2: Activate Alarm to scare away burglars');
     console.log('3: Control Lights remotely to simulate presence');
@@ -61,7 +58,6 @@ async function main() {
         case '1':
             // Prompting the user to enter the desired music duration
             let time = 0;
-
             while (true) {
                 try {
                     time = parseFloat(await askQuestion('Enter the desired music duration (in minutes): '));
@@ -77,7 +73,6 @@ async function main() {
             }
             // Creating a request object to set the music timer
             const request = { time };
-
             // Calling the gRPC method to set the music timer
             client.SetTimeMusic(request, (error, response) => {
                 if (error) {
@@ -92,7 +87,6 @@ async function main() {
                 rl.close(); 
             });
             break;
-
         case '2':
             // Establishing a stream to activate the alarm
             const alarmStream = client.ActivateAlarm();
@@ -128,7 +122,6 @@ async function main() {
                 } else {
                     console.log('Lights controlled successfully:', response.message);
                     console.log('\nExiting Smart Security System. Goodbye!');
-
                 }
                 // Closing the readline interface
                 rl.close();
@@ -146,7 +139,6 @@ async function main() {
             // Invoking the function to control lights
             await controlLights();
             break;
-
         case '4':
             // Server streaming call for motion detection
             const motionDetectionStream = client.MotionDetectionStream({});
@@ -155,7 +147,6 @@ async function main() {
             motionDetectionStream.on('data', (response) => {
                 console.log(response.message); // Log the motion detection message received from the server
             });
-
 
             // Handling end event of the streaming call
             motionDetectionStream.on('end', () => {
@@ -168,7 +159,6 @@ async function main() {
             // Informing about invalid choice
             console.log('Invalid choice. Please select a valid option.');
             console.log('\nExiting Smart Security System. Goodbye!');
-            
             // Closing the readline interface
             rl.close();
             break;
